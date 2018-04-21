@@ -1,6 +1,8 @@
 package com.phongbm.customview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,20 +17,22 @@ public class SnowManager {
     private Random random;
     private int widthScreen;
     private int heightScreen;
+    private Bitmap bitmap;
 
     public SnowManager(Context context) {
         snows = new ArrayList<>();
         random = new Random();
-
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         widthScreen = metrics.widthPixels;
         heightScreen = metrics.heightPixels;
-
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.blackleaf);
+        }
         initializeSnows();
     }
 
     public void initializeSnows() {
-        for (int i = 0; i < 48; i++) {
+        for (int i = 0; i < 10; i++) {
             createSnow();
         }
     }
@@ -41,7 +45,8 @@ public class SnowManager {
         int green = random.nextInt(256);
         int blue = random.nextInt(256);
         int color = Color.rgb(red, green, blue);
-        snows.add(new Snow(x, y, size, color));
+
+        snows.add(new Snow(x,y,bitmap));
     }
 
     public void moveSnows() {
